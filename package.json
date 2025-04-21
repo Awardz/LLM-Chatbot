@@ -1,0 +1,24 @@
+{
+  "name": "llm-chatbot",
+  "version": "1.0.0",
+  "description": "Creating a chatbot for Twitch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Awardz/LLM-Chatbot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Awardz/LLM-Chatbot/issues"
+  },
+  "homepage": "https://github.com/Awardz/LLM-Chatbot#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "tmi.js": "^1.8.5"
+  }
+}

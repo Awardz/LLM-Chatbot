@@ -1,2 +1,2 @@
 # LLM-Chatbot
-Recreating the repo for a Twitch Chatbot with LLM Integration.
+Creating a chatbot for Twitch
