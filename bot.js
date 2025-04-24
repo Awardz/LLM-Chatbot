@@ -32,11 +32,10 @@ async function getJoke()
   
 }
 
-async function getWeather() 
+async function getWeather(city) 
 {
-  const city = 'New York';
-  const apiKey = process.env.WEATHER_API_KEY;
   
+  const apiKey = process.env.WEATHER_API_KEY;
   try 
   {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`);
@@ -56,6 +55,7 @@ async function getWeather()
 }
 
 
+
 client.on('message', async (channel, tags, message, self) => {
 
   if (message.toLowerCase() === '!hello') {
@@ -70,11 +70,22 @@ client.on('message', async (channel, tags, message, self) => {
       client.say(channel, joke);
     });
   }
-  else if (message.toLowerCase() === '!weather')
+  else if (message.toLowerCase().startsWith('!weather'))
   {
-    const weather = await getWeather();
-    client.say(channel, weather);
+    const city = message.split(' ').slice(1).join(' '); // Default to New York if no city is provided
+    if (!city) 
+    {
+      client.say(channel, 'Please provide a city name. Usage: !weather <city>');
+      return;
+    }
+    getWeather(city).then(weather => 
+    {
+      client.say(channel, weather);
+    });
   }
-
-
+  else if (message.toLowerCase().startsWith('!echo'))  
+  {
+    const echo = message.split(' ').slice(1).join(' ');
+    client.say(channel, `Echo: ${echo}`);
+  }
 });

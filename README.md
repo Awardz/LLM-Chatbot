@@ -1,2 +1,2 @@
 # LLM-Chatbot
-Creating a chatbot for Twitch
+Chatbot for Twitch.tv which will have LLM features.
