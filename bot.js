@@ -1,5 +1,6 @@
 require('dotenv').config(); // Load environment variables from .env file
 const tmi = require('tmi.js');
+const fetch = require('node-fetch'); // Import node-fetch for making HTTP requests
 
 const client = new tmi.Client(
     {
@@ -87,5 +88,33 @@ client.on('message', async (channel, tags, message, self) => {
   {
     const echo = message.split(' ').slice(1).join(' ');
     client.say(channel, `Echo: ${echo}`);
+  }
+  else if(message.toLowerCase() === '!ask') 
+  {
+    const question = message.split(' ').slice(1).join(' ');
+    try
+    {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [{ role: 'user', content: question }],
+          max_tokens: 100,
+          temperature: 0.7
+        })
+      });
+      const data = await response.json();
+      const answer = data.choices[0].message.content;
+      client.say(channel, answer);
+    }
+    catch (error)
+    {
+      console.error('Error fetching response from OpenAI API:', error);
+      client.say(channel, 'Sorry, I could not process your request at the moment.');
+    }
   }
 });
